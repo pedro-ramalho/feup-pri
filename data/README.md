@@ -1,22 +1,13 @@
-# PRI Data
+# About
 
-This folder holds the data used throughout the PRI project. It contains both structured and unstructured data about **portuguese flora**.
+The project aims to use information analysis techniques to uncover insights about fungi in the Iberian Peninsula. In the following sections you may find a description about our data sources.
 
 ## Sources
 
-The following subsections provide a detailed explanation of the used data sources.
-
 ### Structured Data
 
-For structured data, we explored the following sources:
-
-- [*Flora-On*](https://flora-on.pt/)
-  - *elaborate about Flora-On*
-- [*GBIF*](https://www.gbif.org/)
-  - *elaborate about GBIF*
-- [*ICNF*](https://www.icnf.pt/)
-  - *elaborate about ICNF*
+- [GBIF (Global Biodiversity Information Facility)](www.gbif.org)
 
 ### Unstructured Data
 
-For unstructured data we used [Arquivo.pt](arquivo.pt) API.
+For unstructured data, the goal was to extract the "Abstract" section of scientific articles related to fungi species. The source used was Google Scholar. Since this platform does not have a public open API, a manual scraping was performed instead.
