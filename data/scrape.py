@@ -3,6 +3,7 @@ import os
 import requests
 import json
 import re
+import shutil
 
 from xml.etree import ElementTree
 
@@ -11,11 +12,13 @@ MAX_ARTICLES = 10
 # API key
 api_key = '20dfcbbfef207ff7715129eae64107620d09'
 
-# create the output directory
 output_directory = 'unprocessed'
+
+if os.path.exists(output_directory):
+    shutil.rmtree(output_directory)
+
 os.makedirs(output_directory, exist_ok=True)
 
-# read the list of species
 with open('processed/species.csv', 'r') as file:
     species_list = list(csv.reader(file))
 
@@ -33,7 +36,7 @@ def get_abstract_url(pmid: str) -> str:
 
 
 def get_wikipedia_url(species_name: str) -> str:
-    return f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles={species_name}"
+    return f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles={species_name}&redirects=1&exintro=true&explaintext=true"
 
 
 def extract_abstracts(species_name: str) -> dict:
@@ -60,9 +63,25 @@ def extract_abstracts(species_name: str) -> dict:
                 num_articles += 1
             else:
                 print(
-                    f'Error: Could not fetch the abstract from the article no. {num_articles}')
+                    f'Error: Could not fetch the abstract from article no. {num_articles}')
 
     return abstracts
+
+
+def extract_wikipedia(species_name: str) -> dict:
+    url = get_wikipedia_url(species_name=species_name)
+    response = requests.get(url)
+
+    wikipedia_content = dict()
+
+    if response.status_code == 200:
+        data = response.json()
+        page_id = list(data["query"]["pages"].keys())[0]
+
+        if "extract" in data["query"]["pages"][page_id]:
+            wikipedia_content["summary"] = data["query"]["pages"][page_id]["extract"]
+
+    return wikipedia_content
 
 
 for species in species_list:
@@ -75,28 +94,12 @@ for species in species_list:
 
     species_data = {}
 
-    # extract abstracts from articles
-
-    # extract content from wikipedia
-
-    print(f'species_name = {species_name}')
-    print(f'formatted_name = {formatted_name}')
-    print(f'first_letter = {first_letter}')
-    # exit(0)
-
     abstracts = extract_abstracts(species_name=species_name)
+    species_data.update(abstracts)
 
-    # wikipedia_url = get_wikipedia_url(species_name=formatted_name)
-    # wikipedia_response = requests.get(wikipedia_url)
-
-    # if wikipedia_response.status_code == 200:
-    #     data = wikipedia_response.json()
-    #     page_id = list(data["query"]["pages"].keys())[0]
-
-    #     if "extract" in data["query"]["pages"][page_id]:
-    #         content = data["query"]["pages"][page_id]["extract"]
-    #         species_data["wikipedia_content"] = content
+    content = extract_wikipedia(species_name=formatted_name)
+    species_data.update(content)
 
     json_filename = os.path.join(letter_directory, f"{species_name}.json")
     with open(json_filename, 'w', encoding='utf-8') as json_file:
-        json.dump(abstracts, json_file, ensure_ascii=False, indent=4)
+        json.dump(species_data, json_file, ensure_ascii=False, indent=4)
