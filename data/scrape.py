@@ -1,30 +1,36 @@
-import os
+import requests
+from xml.etree import ElementTree
 
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-from bs4 import BeautifulSoup
+MAX_ARTICLES = 10
 
-url = "https://cdnsciencepub.com/doi/abs/10.1139/b61-100"
+api_endpoint = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+api_key = "20dfcbbfef207ff7715129eae64107620d09"
+search_term = "Leccinum scabrum"
 
-os.environ['MOZ_HEADLESS'] = '1'
+url = f"{api_endpoint}?db=pubmed&term={search_term}&rettype=abstract&api_key={api_key}"
 
-driver = webdriver.Firefox()
+response = requests.get(url)
 
-try:
-    driver.get(url)
+if response.status_code == 200:
+    root = ElementTree.fromstring(response.content)
 
-    page_source = driver.page_source
+    pmids = [element.text for element in root.findall(".//Id")]
 
-    soup = BeautifulSoup(page_source, "html.parser")
+    num_articles = 0
+    for pmid in pmids:
+        if num_articles > MAX_ARTICLES:
+            break
 
-    abstract_elements = soup.find_all(class_="abstract")
+        abstract_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&retmode=text&rettype=abstract&api_key={api_key}"
 
-    if not abstract_elements:
-        abstract_elements = soup.find_all(id="abstract")
+        abstract_response = requests.get(abstract_url)
 
-    for element in abstract_elements:
-        abstract_text = element.get_text().lstrip("Abstract").strip()
-        print(abstract_text)
+        if abstract_response.status_code == 200:
+            abstract = abstract_response.text
+            print(abstract)
 
-finally:
-    driver.quit()
+            num_articles += 1
+        else:
+            print(f"Error retrieving abstract for PMID {pmid}")
+else:
+    print(f"Error: {response.status_code} - {response.text}")
