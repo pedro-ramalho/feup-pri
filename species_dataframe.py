@@ -1,0 +1,66 @@
+import pandas as pd
+
+from collections import Counter
+
+def get_most_common(lst):
+    counts = Counter(lst)
+    return counts.most_common()[0][0]
+    
+
+speciesFile = open("data/processed/species.csv", "r")
+
+species_list = map(lambda x: x[:-1], speciesFile.readlines())
+
+
+occurrences_df = pd.read_csv('data/occurrence.txt', sep='\t', low_memory=False)
+verbatim_df = pd.read_csv('data/verbatim.txt', sep='\t', low_memory=False)
+
+occurrences_columns = set(occurrences_df.columns)
+verbatim_columns = set(verbatim_df.columns)
+
+interestingColumns = [
+    "species",
+    "infraspecificEpithet",
+    "class",
+    "iucnRedListCategory",
+    "kingdom",
+    "sex",
+    "phylum",
+    "specificEpithet",
+    "vernacularName",
+    "genericName",
+    "family",
+    "datasetName",
+    "higherClassification",
+    "subgenus",
+    "organismName"
+]
+
+verbatim_only_columns = verbatim_columns - occurrences_columns
+
+for column in verbatim_only_columns:
+    occurrences_df[column] = verbatim_df[column]
+
+
+species_df = pd.DataFrame(columns=interestingColumns)
+
+for species in species_list:
+    species_related = occurrences_df[occurrences_df['species'] == species]
+    to_add = [species]
+    for column in interestingColumns[1:]:
+        results = list(species_related[column].dropna().unique())
+        if len(results) > 1:
+            print(f"{species} has duplicate values ins {column}. Example: {results[0]}, {results[1]}")
+            to_add.append(get_most_common(results))
+        elif len(results) == 1:
+            to_add.append(to_add[0])
+        else:
+            to_add.append("")
+    species_df.loc[len(species_df.index)] = to_add
+
+species_df.to_csv("data/processed/species_data.csv")
+    
+
+
+
+

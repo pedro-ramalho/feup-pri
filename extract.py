@@ -1,8 +1,8 @@
 import pandas as pd
+import sqlite3
 
-
-occurrences_df = pd.read_csv('data/occurrence.txt', sep='\t')
-verbatim_df = pd.read_csv('data/verbatim.txt', sep='\t')
+occurrences_df = pd.read_csv('data/occurrence.txt', sep='\t', low_memory=False)
+verbatim_df = pd.read_csv('data/verbatim.txt', sep='\t', low_memory=False)
 #multimedia_df = pd.read_csv('data/multimedia.txt', sep='\t')
 
 
@@ -12,6 +12,7 @@ verbatim_columns = set(verbatim_df.columns)
 
 occurrences_only_columns = occurrences_columns - verbatim_columns
 verbatim_only_columns = verbatim_columns - occurrences_columns
+all_columns = occurrences_columns | verbatim_columns
 
 
 num_lines_occurrences = occurrences_df.shape[0]
@@ -40,12 +41,13 @@ final_num_columns = occurrences_df.shape[1]
 print(f"Number of columns removed: {initial_num_columns - final_num_columns}")
 #print(f"Remaining columns: {set(occurrences_df.columns)}")
 
-
-# extract Species (no occurrence dependent information) to a new csv
-
-species_df = occurrences_df[['species']].copy() # add more columns if fit (not all occurrences have the species taxon btw)
-# a lot of species will appear multiple times, need to define how to filter
-species_df.to_csv('data/processed/species.csv', index=False)
-
-
 # extract Occurrences to a new csv
+occurrences_df['species'].unique().to_csv('data/processed/species.csv', index=False)
+
+#generate database
+exit()
+conn = sqlite3.connect('occurrences.db')
+
+occurrences_df.to_sql("occurrences.db", conn, "occurrences", if_exists="replace")
+
+
