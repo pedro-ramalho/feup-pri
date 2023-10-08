@@ -40,7 +40,7 @@ def extract_abstracts(species_name: str) -> dict:
     url = get_pubmed_url(species_name=species_name)
     response = requests.get(url)
 
-    abstracts = list()
+    abstracts = dict()
 
     if response.status_code == 200:
         root = ElementTree.fromstring(response.content)
@@ -56,13 +56,13 @@ def extract_abstracts(species_name: str) -> dict:
 
             if abstract_response.status_code == 200:
                 abstract = abstract_response.text
-                abstracts.append((f'abstract_{num_articles}', abstract))
+                abstracts[f'abstract_{num_articles}'] = abstract
                 num_articles += 1
             else:
                 print(
                     f'Error: Could not fetch the abstract from the article no. {num_articles}')
 
-    return dict(abstracts)
+    return abstracts
 
 
 for species in species_list:

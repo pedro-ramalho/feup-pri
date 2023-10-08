@@ -1,0 +1,2 @@
+# Ignore the JSON files 
+data/unprocessed/*.json
