@@ -1,4 +1,7 @@
 data/*.txt
 data/*xml
 data/dataset
-occurrences.db
+data/processed/species_data.csv
+data/processed/log
+
+*.db
