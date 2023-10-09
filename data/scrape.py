@@ -9,7 +9,6 @@ from xml.etree import ElementTree
 
 MAX_ARTICLES = 10
 
-# API key
 api_key = '20dfcbbfef207ff7715129eae64107620d09'
 
 output_directory = 'unprocessed'
