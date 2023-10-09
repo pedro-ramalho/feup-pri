@@ -22,7 +22,7 @@ with open('processed/species.csv', 'r') as file:
     species_list = list(csv.reader(file))
 
 
-def format_species_name(species_name: str) -> str:
+def format_species_name(species_name: str) -> str: 
     return '_'.join(re.sub(r'[^a-zA-Z0-9 ]', '', species_name).split())
 
 
