@@ -22,7 +22,7 @@ with open('../data/processed/species.csv', 'r') as file:
     species_list = list(csv.reader(file))
 
 
-def format_species_name(species_name: str) -> str: 
+def format_species_name(species_name: str) -> str:
     return '_'.join(re.sub(r'[^a-zA-Z0-9 ]', '', species_name).split())
 
 
@@ -75,10 +75,10 @@ def extract_wikipedia(species_name: str) -> dict:
 
     if response.status_code == 200:
         data = response.json()
-        page_id = list(data["query"]["pages"].keys())[0]
+        page_id = list(data['query']['pages'].keys())[0]
 
-        if "extract" in data["query"]["pages"][page_id]:
-            wikipedia_content["summary"] = data["query"]["pages"][page_id]["extract"]
+        if 'extract' in data['query']['pages'][page_id]:
+            wikipedia_content['summary'] = data['query']['pages'][page_id]['extract']
 
     return wikipedia_content
 

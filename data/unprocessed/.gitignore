@@ -1,2 +1,3 @@
+# Ignore all the JSON files within this directory
 *.json
 */.json

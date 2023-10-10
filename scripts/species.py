@@ -2,38 +2,46 @@ import pandas as pd
 import sqlite3
 from collections import Counter
 
+DATASET_OCCURRENCES = '../data/datasets/occurrence.txt'
+DATASET_VERBATIM = '../data/datasets/verbatim.txt'
+
+CSV_SPECIES = '../data/processed/species.csv'
+CSV_SPECIES_DATA = '../data/processed/species_data.csv'
+
+DB_FUNGI = '../data/databases/fungi.db'
+
 
 def get_most_common(lst):
     counts = Counter(lst)
     return counts.most_common()[0][0]
 
 
-species_file = open("data/processed/species.csv", "r")
+species_file = open(CSV_SPECIES, "r")
 
 species_list = map(lambda x: x[:-1], species_file.readlines())
 
-occurrences_df = pd.read_csv('data/occurrence.txt', sep='\t', low_memory=False)
-verbatim_df = pd.read_csv('data/verbatim.txt', sep='\t', low_memory=False)
+occurrences_df = pd.read_csv(DATASET_OCCURRENCES, sep='\t', low_memory=False)
+verbatim_df = pd.read_csv(DATASET_VERBATIM, sep='\t', low_memory=False)
 
 occurrences_columns = set(occurrences_df.columns)
 verbatim_columns = set(verbatim_df.columns)
 
 interesting_columns = [
-    "species",
-    "infraspecificEpithet",
-    "class",
-    "iucnRedListCategory",
-    "kingdom",
-    "sex",
-    "phylum",
-    "specificEpithet",
-    "vernacularName",
-    "genericName",
-    "family",
-    "datasetName",
-    "higherClassification",
-    "subgenus",
-    "organismName"
+    'species',
+    'infraspecificEpithet',
+    'class',
+    'iucnRedListCategory',
+    'kingdom',
+    'sex',
+    'phylum',
+    'specificEpithet',
+    'vernacularName',
+    'genericName',
+    'family',
+    'datasetName',
+    'higherClassification',
+    'subgenus',
+    'organismName'
 ]
 
 verbatim_only_columns = verbatim_columns - occurrences_columns
@@ -58,10 +66,10 @@ for species in species_list:
             to_add.append("")
     species_df.loc[len(species_df.index)] = to_add
 
-species_df.to_csv("data/processed/species_data.csv")
+species_df.to_csv(CSV_SPECIES_DATA)
 
-conn = sqlite3.connect('fungi.db')
+conn = sqlite3.connect(DB_FUNGI)
 
-species_df.to_sql("species", con=conn, if_exists="replace")
+species_df.to_sql('species', con=conn, if_exists='replace')
 
 conn.close()
