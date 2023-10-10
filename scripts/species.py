@@ -4,14 +4,6 @@ from collections import Counter
 
 from constants import *
 
-DATASET_OCCURRENCES = '../data/datasets/sample_occurrence.txt'
-DATASET_VERBATIM = '../data/datasets/sample_verbatim.txt'
-
-CSV_SPECIES = '../data/processed/species.csv'
-CSV_SPECIES_DATA = '../data/processed/sample_species_data.csv'
-
-DB_FUNGI = '../data/databases/fungi.db'
-
 print(f'Executing species.py')
 
 def get_most_common(lst):
@@ -75,7 +67,7 @@ for species in species_list:
 species_df.to_csv(CSV_SPECIES_DATA)
 print(f'\t{CHAR_ARROW} Written a CSV with species data successfully')
 
-conn = sqlite3.connect(DB_FUNGI)
+conn = sqlite3.connect(DATABASE_FUNGI)
 
 species_df.to_sql('species', con=conn, if_exists='replace')
 

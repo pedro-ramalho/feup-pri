@@ -1,17 +1,7 @@
 import pandas as pd
 import sqlite3
 
-DATASET_OCCURRENCES = '../data/datasets/sample_occurrence.txt'
-DATASET_VERBATIM = '../data/datasets/sample_verbatim.txt'
-
-CSV_SPECIES = '../data/processed/species.csv'
-
-DB_OCURRENCES = '../data/databases/occurrences.db'
-
-CHAR_ARROW = '\u2192'
-
-CHUNK_SIZE = 5000
-
+from constants import *
 
 # load the datasets
 print(f'Executing extract.py')
@@ -53,7 +43,7 @@ species.to_csv(CSV_SPECIES, index=False)
 print(f'\t{CHAR_ARROW} Saved the species list to a file successfully')
 
 # generate the database
-conn = sqlite3.connect(DB_OCURRENCES)
-occurrences_df.to_sql(DB_OCURRENCES, conn, 'occurrences', if_exists='replace')
+conn = sqlite3.connect(DATABASE_OCCURRENCES)
+occurrences_df.to_sql(DATABASE_OCCURRENCES, conn, 'occurrences', if_exists='replace')
 conn.close()
 print(f'\t{CHAR_ARROW} Generated the database successfully')

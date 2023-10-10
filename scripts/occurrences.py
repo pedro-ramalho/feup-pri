@@ -2,11 +2,6 @@ import pandas as pd
 
 from constants import *
 
-DATASET_OCCURRENCES = '../data/datasets/sample_occurrence.txt'
-DATASET_VERBATIM = '../data/datasets/sample_verbatim.txt'
-
-CSV_OCCURRENCES = '../data/processed/sample_occurrences_data.csv'
-
 print('Executing occurrences.py')
 occurrences_df = pd.read_csv(DATASET_OCCURRENCES, sep='\t', low_memory=False)
 print(f'\t{CHAR_ARROW} Loaded occurrences.txt successfully')

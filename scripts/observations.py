@@ -3,11 +3,6 @@ import sqlite3
 
 from constants import *
 
-DATASET_OCCURRENCES = '../data/datasets/sample_occurrence.txt'
-DATASET_MULTIMEDIA = '../data/datasets/sample_multimedia.txt'
-
-DB_FUNGI = '../data/databases/fungi.db'
-
 print('Executing observations.py')
 
 observation_columns = {
@@ -56,7 +51,7 @@ observations_df = occurrences_df.loc[:, list(observation_columns.values())]
 
 multimedia_df = multimedia_df.rename(columns=media_columns)
 
-conn = sqlite3.connect(DB_FUNGI)
+conn = sqlite3.connect(DATABASE_FUNGI)
 
 observations_df.to_sql('observations', con=conn, if_exists='replace')
 multimedia_df.to_sql('images', con=conn, if_exists='replace')
