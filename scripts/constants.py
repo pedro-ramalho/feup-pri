@@ -1,0 +1,1 @@
+CHAR_ARROW = '\u2192'

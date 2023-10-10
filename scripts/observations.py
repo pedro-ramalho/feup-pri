@@ -1,10 +1,14 @@
 import pandas as pd
 import sqlite3
 
-DATASET_OCCURRENCES = '../data/datasets/occurrence.txt'
-DATASET_MULTIMEDIA = '../data/datasets/multimedia.txt'
+from constants import *
+
+DATASET_OCCURRENCES = '../data/datasets/sample_occurrence.txt'
+DATASET_MULTIMEDIA = '../data/datasets/sample_multimedia.txt'
 
 DB_FUNGI = '../data/databases/fungi.db'
+
+print('Executing observations.py')
 
 observation_columns = {
     'species': 'species',
@@ -12,20 +16,24 @@ observation_columns = {
     'year': 'year',
     'month': 'month',
     'day': 'day',
-    'countryCode': 'country_code',  
-    'level1Name': 'district',  
-    'level2Name': 'county',  
-    'level3Name': 'parish',  
-    'decimalLongitude': 'longitude',  
-    'decimalLatitude': 'latitude',  
+    'countryCode': 'country_code',
+    'level1Name': 'district',
+    'level2Name': 'county',
+    'level3Name': 'parish',
+    'decimalLongitude': 'longitude',
+    'decimalLatitude': 'latitude',
     'recordedBy': 'author'
 }
 
 occurrences_df = pd.read_csv(DATASET_OCCURRENCES, sep='\t', low_memory=False)
+print(f'\t{CHAR_ARROW} Loaded occurrences.txt successfully')
+
 multimedia_df = pd.read_csv(DATASET_MULTIMEDIA, sep="\t", low_memory=False)
+print(f'\t{CHAR_ARROW} Loaded multimedia.txt successfully')
 
 occurrences_df = occurrences_df.rename(columns={'county': 'county_temp'})
 occurrences_df = occurrences_df.rename(columns=observation_columns)
+print(f'\t{CHAR_ARROW} Renamed columns successfully')
 
 media_columns = {
     'gbifID': 'gbif_id',
@@ -42,6 +50,7 @@ occurrences_df['county'].fillna(occurrences_df['municipality'], inplace=True)
 occurrences_df['county'].fillna(occurrences_df['county_temp'], inplace=True)
 occurrences_df['author'].fillna(occurrences_df['identifiedBy'], inplace=True)
 occurrences_df['author'].fillna(occurrences_df['rightsHolder'], inplace=True)
+print(f'\t{CHAR_ARROW} Aggregated columns successfully')
 
 observations_df = occurrences_df.loc[:, list(observation_columns.values())]
 
@@ -53,3 +62,5 @@ observations_df.to_sql('observations', con=conn, if_exists='replace')
 multimedia_df.to_sql('images', con=conn, if_exists='replace')
 
 conn.close()
+
+print(f'\t{CHAR_ARROW} Generated the database successfully')
