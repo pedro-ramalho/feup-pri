@@ -2,15 +2,15 @@ import pandas as pd
 import sqlite3
 from collections import Counter
 
+
 def get_most_common(lst):
     counts = Counter(lst)
     return counts.most_common()[0][0]
-    
 
-speciesFile = open("data/processed/species.csv", "r")
 
-species_list = map(lambda x: x[:-1], speciesFile.readlines())
+species_file = open("data/processed/species.csv", "r")
 
+species_list = map(lambda x: x[:-1], species_file.readlines())
 
 occurrences_df = pd.read_csv('data/occurrence.txt', sep='\t', low_memory=False)
 verbatim_df = pd.read_csv('data/verbatim.txt', sep='\t', low_memory=False)
@@ -18,7 +18,7 @@ verbatim_df = pd.read_csv('data/verbatim.txt', sep='\t', low_memory=False)
 occurrences_columns = set(occurrences_df.columns)
 verbatim_columns = set(verbatim_df.columns)
 
-interestingColumns = [
+interesting_columns = [
     "species",
     "infraspecificEpithet",
     "class",
@@ -41,16 +41,16 @@ verbatim_only_columns = verbatim_columns - occurrences_columns
 for column in verbatim_only_columns:
     occurrences_df[column] = verbatim_df[column]
 
-
-species_df = pd.DataFrame(columns=interestingColumns)
+species_df = pd.DataFrame(columns=interesting_columns)
 
 for species in species_list:
     species_related = occurrences_df[occurrences_df['species'] == species]
     to_add = [species]
-    for column in interestingColumns[1:]:
+    for column in interesting_columns[1:]:
         results = list(species_related[column].dropna())
         if len(results) > 1:
-            print(f"{species} has more than one value in {column}. Example: {results[0]}, {results[1]}")
+            print(
+                f"{species} has more than one value in {column}. Example: {results[0]}, {results[1]}")
             to_add.append(get_most_common(results))
         elif len(results) == 1:
             to_add.append(results[0])
@@ -59,6 +59,9 @@ for species in species_list:
     species_df.loc[len(species_df.index)] = to_add
 
 species_df.to_csv("data/processed/species_data.csv")
+
 conn = sqlite3.connect('fungi.db')
+
 species_df.to_sql("species", con=conn, if_exists="replace")
+
 conn.close()

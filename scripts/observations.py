@@ -1,24 +1,25 @@
 import pandas as pd
 import sqlite3
 
-
 observation_columns = {
-    'species' : 'species',
-    'gbifID' : 'gbif_id',
-    'year' : 'year',
+    'species': 'species',
+    'gbifID': 'gbif_id',
+    'year': 'year',
     'month': 'month',
     'day': 'day',
-    'countryCode': 'country_code', # ES or PT
-    'level1Name': 'district', # level1Name & stateProvince - Distrito 
-    'level2Name': 'county', # level2Name & municipality & county - Concelho
-    'level3Name' : 'parish', # level3Name - Freguesia 
-    'decimalLongitude': 'longitude', # decimalLongitude
-    'decimalLatitude' : 'latitude', # decimalLatitude
-    'recordedBy' : 'author'
+    'countryCode': 'country_code',  # ES or PT
+    'level1Name': 'district',  # level1Name & stateProvince - Distrito
+    'level2Name': 'county',  # level2Name & municipality & county - Concelho
+    'level3Name': 'parish',  # level3Name - Freguesia
+    'decimalLongitude': 'longitude',  # decimalLongitude
+    'decimalLatitude': 'latitude',  # decimalLatitude
+    'recordedBy': 'author'
 }
 
-occurrences_df = pd.read_csv('data/occurrence.txt', sep='\t', low_memory=False)
-multimedia_df = pd.read_csv('data/multimedia.txt', sep="\t", low_memory=False)
+occurrences_df = pd.read_csv(
+    '../data/occurrence.txt', sep='\t', low_memory=False)
+multimedia_df = pd.read_csv(
+    '../data/multimedia.txt', sep="\t", low_memory=False)
 
 occurrences_df = occurrences_df.rename(columns={"county": "county_temp"})
 occurrences_df = occurrences_df.rename(columns=observation_columns)
@@ -28,10 +29,12 @@ media_columns = {
     'references': 'image_link'
 }
 
-occurrences_df = occurrences_df.dropna(subset=['latitude', 'longitude'], how='all')
+occurrences_df = occurrences_df.dropna(
+    subset=['latitude', 'longitude'], how='all')
 occurrences_df = occurrences_df.reset_index(drop=True)
 
-occurrences_df['district'].fillna(occurrences_df['stateProvince'], inplace=True)
+occurrences_df['district'].fillna(
+    occurrences_df['stateProvince'], inplace=True)
 occurrences_df['county'].fillna(occurrences_df['municipality'], inplace=True)
 occurrences_df['county'].fillna(occurrences_df['county_temp'], inplace=True)
 occurrences_df['author'].fillna(occurrences_df['identifiedBy'], inplace=True)
