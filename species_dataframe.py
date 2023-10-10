@@ -1,5 +1,5 @@
 import pandas as pd
-
+import sqlite3
 from collections import Counter
 
 def get_most_common(lst):
@@ -48,19 +48,17 @@ for species in species_list:
     species_related = occurrences_df[occurrences_df['species'] == species]
     to_add = [species]
     for column in interestingColumns[1:]:
-        results = list(species_related[column].dropna().unique())
+        results = list(species_related[column].dropna())
         if len(results) > 1:
-            print(f"{species} has duplicate values ins {column}. Example: {results[0]}, {results[1]}")
+            print(f"{species} has more than one value in {column}. Example: {results[0]}, {results[1]}")
             to_add.append(get_most_common(results))
         elif len(results) == 1:
-            to_add.append(to_add[0])
+            to_add.append(results[0])
         else:
             to_add.append("")
     species_df.loc[len(species_df.index)] = to_add
 
 species_df.to_csv("data/processed/species_data.csv")
-    
-
-
-
-
+conn = sqlite3.connect('fungi.db')
+species_df.to_sql("species", con=conn, if_exists="replace")
+conn.close()
