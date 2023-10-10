@@ -5,3 +5,6 @@ data/processed/species_data.csv
 data/processed/log
 
 *.db
+
+# Ignore the JSON files 
+data/unprocessed/*.json
