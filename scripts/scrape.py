@@ -22,7 +22,7 @@ with open(CSV_SPECIES, 'r') as file:
 
     species_list = [row for row in reader if all(value.strip() for value in row)]
 
-print(f'\t{CHAR_ARROW} Fetched the list of species successfully')
+print(f'{CHAR_ARROW} Fetched the list of species successfully')
 
 
 def format_species_name(species_name: str) -> str:
@@ -106,4 +106,4 @@ for species in species_list:
     with open(json_filename, 'w', encoding='utf-8') as json_file:
         json.dump(species_data, json_file, ensure_ascii=False, indent=4)
 
-print(f'\t{CHAR_ARROW} Finished extracting abstracts and summaries successfully\n')
+print(f'{CHAR_ARROW} Finished extracting abstracts and summaries successfully\n')
