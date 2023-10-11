@@ -6,32 +6,34 @@ import re
 import shutil
 
 from xml.etree import ElementTree
+from constants import *
 
-MAX_ARTICLES = 10
 
-api_key = '20dfcbbfef207ff7715129eae64107620d09'
+if os.path.exists(SCRAPING_OUTPUT_DIRECTORY):
+    shutil.rmtree(SCRAPING_OUTPUT_DIRECTORY)
 
-output_directory = '../data/unprocessed'
+os.makedirs(SCRAPING_OUTPUT_DIRECTORY, exist_ok=True)
 
-if os.path.exists(output_directory):
-    shutil.rmtree(output_directory)
+with open(CSV_SPECIES, 'r') as file:
+    reader = csv.reader(file)
+    
+    # Skip the first line
+    next(reader)
 
-os.makedirs(output_directory, exist_ok=True)
+    species_list = [row for row in reader if all(value.strip() for value in row)]
 
-with open('../data/processed/species.csv', 'r') as file:
-    species_list = list(csv.reader(file))
-
+print(f'species_list = {species_list}')
 
 def format_species_name(species_name: str) -> str:
     return '_'.join(re.sub(r'[^a-zA-Z0-9 ]', '', species_name).split())
 
 
 def get_pubmed_url(species_name: str) -> str:
-    return f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={species_name}&rettype=abstract&api_key={api_key}"
+    return f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={species_name}&rettype=abstract&api_key={API_KEY}"
 
 
 def get_abstract_url(pmid: str) -> str:
-    return f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&retmode=text&rettype=abstract&api_key={api_key}"
+    return f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&retmode=text&rettype=abstract&api_key={API_KEY}"
 
 
 def get_wikipedia_url(species_name: str) -> str:
@@ -88,7 +90,7 @@ for species in species_list:
     formatted_name = format_species_name(species_name=species_name)
     first_letter = formatted_name[0].upper()
 
-    letter_directory = os.path.join(output_directory, first_letter)
+    letter_directory = os.path.join(SCRAPING_OUTPUT_DIRECTORY, first_letter)
     os.makedirs(letter_directory, exist_ok=True)
 
     species_data = {}

@@ -14,3 +14,12 @@ DATABASE_FUNGI = 'data/databases/fungi.db'
 
 # Special characters used for printing
 CHAR_ARROW = '\u2192'
+
+# Maximum number of articles to be fetched
+MAX_ARTICLES = 10
+
+# PubMed API Key
+API_KEY = '20dfcbbfef207ff7715129eae64107620d09'
+
+# Scraping output directory
+SCRAPING_OUTPUT_DIRECTORY = 'data/unprocessed'

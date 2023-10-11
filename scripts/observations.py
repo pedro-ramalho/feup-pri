@@ -58,4 +58,4 @@ multimedia_df.to_sql('images', con=conn, if_exists='replace')
 
 conn.close()
 
-print(f'\t{CHAR_ARROW} Generated the database successfully')
+print(f'\t{CHAR_ARROW} Generated the database successfully\n')

@@ -45,4 +45,4 @@ interesting_columns = [
 occurrences_df = occurrences_df[interesting_columns]
 
 occurrences_df.to_csv(CSV_OCCURRENCES)
-print(f'\t{CHAR_ARROW} Written a CSV with occurrences data successfully')
+print(f'\t{CHAR_ARROW} Written a CSV with occurrences data successfully\n')

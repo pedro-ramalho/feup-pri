@@ -72,4 +72,4 @@ conn = sqlite3.connect(DATABASE_FUNGI)
 species_df.to_sql('species', con=conn, if_exists='replace')
 
 conn.close()
-print(f'\t{CHAR_ARROW} Generated the database successfully')
+print(f'\t{CHAR_ARROW} Generated the database successfully\n')
