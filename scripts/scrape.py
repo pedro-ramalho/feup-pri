@@ -8,7 +8,7 @@ import shutil
 from xml.etree import ElementTree
 from constants import *
 
-
+print(f'Executing scrape.py')
 if os.path.exists(SCRAPING_OUTPUT_DIRECTORY):
     shutil.rmtree(SCRAPING_OUTPUT_DIRECTORY)
 
@@ -22,7 +22,8 @@ with open(CSV_SPECIES, 'r') as file:
 
     species_list = [row for row in reader if all(value.strip() for value in row)]
 
-print(f'species_list = {species_list}')
+print(f'\t{CHAR_ARROW} Fetched the list of species successfully')
+
 
 def format_species_name(species_name: str) -> str:
     return '_'.join(re.sub(r'[^a-zA-Z0-9 ]', '', species_name).split())
@@ -104,3 +105,5 @@ for species in species_list:
     json_filename = os.path.join(letter_directory, f"{species_name}.json")
     with open(json_filename, 'w', encoding='utf-8') as json_file:
         json.dump(species_data, json_file, ensure_ascii=False, indent=4)
+
+print(f'\t{CHAR_ARROW} Finished extracting abstracts and summaries successfully\n')

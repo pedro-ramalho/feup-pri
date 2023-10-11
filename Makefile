@@ -1,4 +1,4 @@
-SCRIPTS := extract.py observations.py occurrences.py species.py
+SCRIPTS := extract.py observations.py occurrences.py species.py scrape.py
 
 .PHONY:
 
