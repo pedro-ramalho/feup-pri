@@ -48,7 +48,7 @@ plt.xlabel('Attribute')
 plt.ylabel('Percentage of missing values')
 plt.xticks(rotation=90, fontsize = 'x-small')
 plt.tight_layout()
-plt.savefig(fname="data/characterization/observation_completeness.svg", format="svg", transparent=False)
+plt.savefig(fname="data/characterization/observation_completeness.png", format="png", transparent=False)
 plt.clf()
 
 plt.bar([x[0] for x in species_null_percentages], [x[1] for x in species_null_percentages], color='skyblue', edgecolor='black')
@@ -57,7 +57,7 @@ plt.xlabel('Attribute')
 plt.ylabel('Percentage of missing values')
 plt.xticks(rotation=90, fontsize = 'x-small')
 plt.tight_layout()
-plt.savefig(fname="data/characterization/species_completeness.svg", format="svg", transparent=False)
+plt.savefig(fname="data/characterization/species_completeness.png", format="png", transparent=False)
 plt.clf()
 
 species_observations = []
@@ -74,7 +74,7 @@ plt.xlabel('Species name')
 plt.ylabel('Number of observations')
 plt.xticks(rotation=90, fontsize = 'x-small')
 plt.tight_layout()
-plt.savefig(fname="data/characterization/species_observations.svg", format="svg", transparent=False)
+plt.savefig(fname="data/characterization/species_observations.png", format="png", transparent=False)
 plt.clf()
 
 portugal_district_observations = []
@@ -96,17 +96,17 @@ bars = plt.bar(["ES - " + x[0] for x in top_5_spain] + ["PT - " + x[0] for x in 
 
 # yes the name implies top 5 but there could be less 
 for i in range(len(top_5_spain)):
-    bars[i].set_color('red')
+    bars[i].set_color('tab:orange')
 
 for i in range(len(top_5_spain), len(top_5_spain) + len(top_5_portugal)):
-    bars[i].set_color('blue')
+    bars[i].set_color('tab:blue')
 
 plt.title('Districts with most observations')
 plt.xlabel('Country and district')
 plt.ylabel('Number of observations')
 plt.xticks(rotation=90, fontsize = 'x-small')
 plt.tight_layout()
-plt.savefig(fname="data/characterization/district_observations.svg", format="svg", transparent=False)
+plt.savefig(fname="data/characterization/district_observations.png", format="png", transparent=False)
 plt.clf()
 
 portugal_observations = len(observations_df[observations_df['country_code'] == "PT"])
@@ -116,42 +116,42 @@ total = portugal_observations + spain_observations
 
 plt.pie([portugal_observations, spain_observations], labels=["Portugal", "Spain"], autopct= lambda x : f"{math.trunc(total * x/100000)}k ({round(x, 1)}%)")
 plt.tight_layout()
-plt.savefig(fname="data/characterization/observation_distribution_by_country.svg", format="svg", transparent=False)
+plt.savefig(fname="data/characterization/observation_distribution_by_country.png", format="png", transparent=False)
 plt.clf()
 
-plt.tight_layout()
 plt.hist(observations_df['year'].dropna(), bins=30, color='skyblue', edgecolor='black')
 plt.xlabel('Year')
 plt.ylabel('Count of Observations')
 plt.title('Distribution of Observations by Year')
-plt.savefig('data/characterization/observation_distribution_by_year.svg', format="svg", transparent=False)
+plt.tight_layout()
+plt.savefig('data/characterization/observation_distribution_by_year.png', format="png", transparent=False)
 plt.clf()
 
-phylum_counts = species_df['phylum'].value_counts()
+phylum_counts = species_df[species_df['phylum'].notna()]['phylum'].value_counts()
 
 plt.tight_layout()
-phylum_counts.plot(kind='bar', color='orange', edgecolor='black')
+phylum_counts.plot(kind='bar')
 plt.xlabel('Phylum')
 plt.ylabel('Count of Species')
 plt.title('Distribution of Species by Phylum')
-plt.savefig('data/characterization/species_distribution_by_phylum.svg', format="svg", transparent=False)
+plt.savefig('data/characterization/species_distribution_by_phylum.png', format="png", transparent=False)
 plt.clf()
 
-class_counts = species_df['class'].value_counts()
+class_counts = species_df[species_df['class'].notna()]['class'].value_counts()
 
-plt.tight_layout()
-phylum_counts.plot(kind='bar', color='orange', edgecolor='black')
+phylum_counts.plot(kind='bar')
 plt.xlabel('Class')
 plt.ylabel('Count of Species')
 plt.title('Distribution of Species by Class')
-plt.savefig('data/characterization/species_distribution_by_class.svg', format="svg", transparent=False)
+plt.tight_layout()
+plt.savefig('data/characterization/species_distribution_by_class.png', format="png", transparent=False)
 plt.clf()
 
 
-plt.tight_layout()
 plt.scatter(observations_df['longitude'], observations_df['latitude'], alpha=0.5, color='blue')
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
 plt.title('Geographical Distribution of Observations')
-plt.savefig('data/characterization/geographical_distribution.svg', format="svg", transparent=False)
+plt.tight_layout()
+plt.savefig('data/characterization/geographical_distribution.png', format="png", transparent=False)
 plt.clf()

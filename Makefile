@@ -3,7 +3,7 @@ SCRIPTS := process.py scrape.py
 .PHONY:
 
 clean:
-	rm -rf data/databases/* data/processed/* data/unprocessed/*
+	find data/databases/ data/processed/ data/unprocessed/ data/characterization -type f ! \( -name '*.md' -o -name '.gitignore' \) -exec rm -f {} \;
 
 run: clean
 	for script in $(SCRIPTS); do \
