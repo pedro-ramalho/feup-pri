@@ -12,7 +12,8 @@ df_multimedia = pd.read_csv(DATASET_MULTIMEDIA, sep='\t', low_memory=False)
 print(f'{CHAR_ARROW} Loaded the datasets')
 
 # create the list of species
-pd.DataFrame({'species': df_occurrences['species'].unique()}).to_csv(CSV_SPECIES, index=False)
+pd.DataFrame({'species': df_occurrences['species'].unique()}).to_csv(
+    CSV_SPECIES, index=False)
 print(f'{CHAR_ARROW} Created the list of species')
 
 # handle occurrences and multimedia
@@ -38,10 +39,12 @@ columns_multimedia = {
 
 df_occurrences = df_occurrences.rename(columns={'county': 'county_temp'})
 df_occurrences = df_occurrences.rename(columns=columns_occurrences)
-df_occurrences = df_occurrences.dropna(subset=['latitude', 'longitude'], how='all')
+df_occurrences = df_occurrences.dropna(
+    subset=['latitude', 'longitude'], how='all')
 df_occurrences = df_occurrences.reset_index(drop=True)
 
-df_occurrences['district'].fillna(df_occurrences['stateProvince'], inplace=True)
+df_occurrences['district'].fillna(
+    df_occurrences['stateProvince'], inplace=True)
 df_occurrences['county'].fillna(df_occurrences['municipality'], inplace=True)
 df_occurrences['county'].fillna(df_occurrences['county_temp'], inplace=True)
 df_occurrences['author'].fillna(df_occurrences['identifiedBy'], inplace=True)
@@ -76,9 +79,11 @@ columns_species = [
 
 df_species = pd.DataFrame(columns=columns_species)
 
+
 def get_most_common(lst):
     counts = Counter(lst)
     return counts.most_common()[0][0]
+
 
 for species in species_list:
     species_related = df_occurrences[df_occurrences['species'] == species]

@@ -16,11 +16,12 @@ os.makedirs(SCRAPING_OUTPUT_DIRECTORY, exist_ok=True)
 
 with open(CSV_SPECIES, 'r') as file:
     reader = csv.reader(file)
-    
+
     # Skip the first line
     next(reader)
 
-    species_list = [row for row in reader if all(value.strip() for value in row)]
+    species_list = [row for row in reader if all(
+        value.strip() for value in row)]
 
 print(f'{CHAR_ARROW} Fetched the list of species successfully')
 
