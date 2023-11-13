@@ -23,3 +23,5 @@ API_KEY = '20dfcbbfef207ff7715129eae64107620d09'
 
 # Scraping output directory
 SCRAPING_OUTPUT_DIRECTORY = 'data/unprocessed'
+
+SOLR_DATA_DIRECTORY = 'solr/data'
