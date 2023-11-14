@@ -1,12 +1,12 @@
 {
 	"add-field-type": [
         {
-            "name": "string",
+            "name": "mstring",
             "class": "solr.StrField",
             "multiValued": false
         },
         {
-            "name": "int",
+            "name": "mint",
             "class": "solr.IntPointField",
             "multiValued": false,
             "docValues": true
@@ -40,7 +40,7 @@
     "add-field": [
         {
             "name": "index",
-            "type": "int",
+            "type": "mint",
             "indexed": false
         },
         {
@@ -50,62 +50,62 @@
         },
         {
             "name": "infraspecificEpithet",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "class",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "iucnRedListCategory",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "kingdom",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "phylum",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "specificEpithet",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "vernacularName",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "genericName",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "family",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "higherClassification",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "subgenus",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "organismName",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {

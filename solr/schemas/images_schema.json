@@ -1,17 +1,17 @@
 {
 	"add-field-type": [
         {
-            "name": "date",
+            "name": "mdate",
             "class": "solr.DateRangeField",
             "multiValued": false
         },
         {
-            "name": "string",
+            "name": "mstring",
             "class": "solr.StrField",
             "multiValued": false
         },
         {
-            "name": "int",
+            "name": "mint",
             "class": "solr.IntPointField",
             "multiValued": false,
             "docValues": true
@@ -45,32 +45,32 @@
     "add-field": [
         {
             "name": "index",
-            "type": "int",
+            "type": "mint",
             "indexed": false
         },
         {
             "name": "gbif_id",
-            "type": "int",
+            "type": "mint",
             "indexed": true
         },
         {
             "name": "type",
-            "type": "string",
+            "type": "mstring",
             "indexed": false
         },
         {
             "name": "format",
-            "type": "string",
+            "type": "mstring",
             "indexed": true
         },
         {
             "name": "identifier",
-            "type": "string",
+            "type": "mstring",
             "indexed": false
         },
         {
             "name": "image_link",
-            "type": "string",
+            "type": "mstring",
             "indexed": false
         },
         {
@@ -110,7 +110,7 @@
         },
         {
             "name": "created",
-            "type": "date",
+            "type": "mdate",
             "indexed": true
         },
         {
