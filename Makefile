@@ -1,4 +1,5 @@
 SCRIPTS := process.py scrape.py
+SOLR_SCRIPT := solr/startup.sh
 
 .PHONY:
 
@@ -17,3 +18,6 @@ run_single:
 	else \
 		echo "Script '$$script' not found."; \
 	fi
+
+start_solr:
+	bash $(SOLR_SCRIPT)
