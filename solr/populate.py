@@ -3,9 +3,17 @@ import json
 import csv
 import os
 
+COLLECTION_SPECIES = 'species'
+COLLECTION_OBSERVATIONS = 'observations'
+COLLECTION_IMAGES = 'images'
+
 SOLR_SPECIES_CSV_PATH = 'solr/data/species.csv'
 SOLR_OBSERVATIONS_CSV_PATH = 'solr/data/observations.csv'
 SOLR_IMAGES_CSV_PATH = 'solr/data/images.csv'
+
+SOLR_SPECIES_COLLECTION_PATH = 'solr/data/species.json'
+SOLR_OBSERVATIONS_COLLECTION_PATH = 'solr/data/observations.json'
+SOLR_IMAGES_COLLECTION_PATH = 'solr/data/images.json'
 
 conn = sqlite3.connect('data/databases/fungi.db')
 cursor = conn.cursor()
@@ -44,13 +52,6 @@ images_columns = [col[1] for col in cursor.execute(
     'PRAGMA table_info(images)').fetchall()]
 
 
-def wr_csv(path: str, columns: list, data: list) -> None:
-    with open(path, 'w', newline='') as file:
-        file_writer = csv.writer(file)
-        file_writer.writerow(columns)
-        file_writer.writerows(data)
-
-
 def flatten_list(lst: list) -> list:
     flattened_list = []
     for lst_elem in lst:
@@ -64,9 +65,24 @@ def flatten_list(lst: list) -> list:
 observations = flatten_list(observations)
 images = flatten_list(images)
 
-wr_csv(SOLR_SPECIES_CSV_PATH, species_columns, species)
-wr_csv(SOLR_OBSERVATIONS_CSV_PATH, observations_columns, observations)
-wr_csv(SOLR_IMAGES_CSV_PATH, images_columns, images)
+
+def mk_dict(keys: list, data: list) -> list[dict[str, str]]:
+    return [dict(zip(keys, data[i])) for i in range(len(data))]
+
+
+species_dicts = mk_dict(species_columns, species)
+observations_dicts = mk_dict(observations_columns, observations)
+images_dicts = mk_dict(images_columns, images)
+
+
+def populate_collection(data: list[dict[str, str]], collection_name: str) -> None:
+    with open(f'solr/data/{collection_name}.json', 'w') as file:
+        json.dump(data, file, indent=4)
+
+
+populate_collection(species_dicts, COLLECTION_SPECIES)
+populate_collection(observations_dicts, COLLECTION_OBSERVATIONS)
+populate_collection(images_dicts, COLLECTION_IMAGES)
 
 
 def concatenate_summary_abstracts(species_list: list, data_directory: str) -> list:
