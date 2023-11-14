@@ -1,0 +1,128 @@
+{
+	"add-field-type": [
+        {
+            "name": "date",
+            "class": "solr.DateRangeField",
+            "multiValued": false
+        },
+        {
+            "name": "string",
+            "class": "solr.StrField",
+            "multiValued": false
+        },
+        {
+            "name": "int",
+            "class": "solr.IntPointField",
+            "multiValued": false,
+            "docValues": true
+        },
+        {
+            "name": "shortText",
+            "class": "solr.TextField",
+            "indexAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            },
+            "queryAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            }
+        }
+        
+
+        
+    ],
+    "add-field": [
+        {
+            "name": "index",
+            "type": "int",
+            "indexed": false
+        },
+        {
+            "name": "gbif_id",
+            "type": "int",
+            "indexed": true
+        },
+        {
+            "name": "type",
+            "type": "string",
+            "indexed": false
+        },
+        {
+            "name": "format",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "identifier",
+            "type": "string",
+            "indexed": false
+        },
+        {
+            "name": "image_link",
+            "type": "string",
+            "indexed": false
+        },
+        {
+            "name": "title",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "description",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "source",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "audience",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "contributor",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "publisher",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "license",
+            "type": "shortText",
+            "indexed": false
+        },
+        {
+            "name": "created",
+            "type": "date",
+            "indexed": true
+        },
+        {
+            "name": "creator",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "rightsHolder",
+            "type": "shortText",
+            "indexed": true
+        }
+
+    ]
+}

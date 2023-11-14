@@ -1,0 +1,117 @@
+{
+	"add-field-type": [
+        {
+            "name": "string",
+            "class": "solr.StrField",
+            "multiValued": false
+        },
+        {
+            "name": "int",
+            "class": "solr.IntPointField",
+            "multiValued": false,
+            "docValues": true
+        },
+        {
+            "name": "shortText",
+            "class": "solr.TextField",
+            "indexAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            },
+            "queryAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            }
+        }
+        
+
+        
+    ],
+    "add-field": [
+        {
+            "name": "index",
+            "type": "int",
+            "indexed": false
+        },
+        {
+            "name": "species",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "infraspecificEpithet",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "class",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "iucnRedListCategory",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "kingdom",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "phylum",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "specificEpithet",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "vernacularName",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "genericName",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "family",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "higherClassification",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "subgenus",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "organismName",
+            "type": "string",
+            "indexed": true
+        },
+        {
+            "name": "datasetName",
+            "type": "shortText",
+            "indexed": false
+        }
+    ]
+}

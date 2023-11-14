@@ -8,7 +8,14 @@
         {
             "name": "int",
             "class": "solr.IntPointField",
-            "multiValued": false
+            "multiValued": false,
+            "docValues": true
+        },
+        {
+            "name": "double",
+            "class": "solr.DoublePointField",
+            "multiValued": false,
+            "docValues": true
         },
         {
             "name": "shortText",
@@ -38,75 +45,70 @@
     ],
     "add-field": [
         {
+            "name": "index",
+            "type": "int",
+            "indexed": false
+        },
+        {
             "name": "species",
             "type": "shortText",
             "indexed": true
         },
         {
-            "name": "infraspecificEpithet",
+            "name": "gbif_id",
+            "type": "int",
+            "indexed": true
+        },
+        {
+            "name": "year",
+            "type": "int",
+            "indexed": true
+        },
+        {
+            "name": "month",
+            "type": "int",
+            "indexed": true
+        },
+        {
+            "name": "day",
+            "type": "int",
+            "indexed": true
+        },
+        {
+            "name": "country_code",
             "type": "string",
             "indexed": true
         },
         {
-            "name": "class",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "iucnRedListCategory",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "kingdom",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "phylum",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "specificEpithet",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "vernacularName",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "genericName",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "family",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "higherClassification",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "subgenus",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "organismName",
-            "type": "string",
-            "indexed": true
-        },
-        {
-            "name": "datasetName",
+            "name": "district",
             "type": "shortText",
-            "indexed": false,
-            "stored": true
+            "indexed": true
+        },
+        {
+            "name": "county",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "parish",
+            "type": "shortText",
+            "indexed": true
+        },
+        {
+            "name": "longitude",
+            "type": "double",
+            "indexed": true
+        },
+        {
+            "name": "latitude",
+            "type": "double",
+            "indexed": true
+        },
+        {
+            "name": "author",
+            "type": "shortText",
+            "indexed": true
         }
+
     ]
 }
