@@ -1,5 +1,7 @@
 import sqlite3
+import json
 import csv
+import os
 
 SOLR_SPECIES_CSV_PATH = 'solr/data/species.csv'
 SOLR_OBSERVATIONS_CSV_PATH = 'solr/data/observations.csv'
@@ -66,10 +68,28 @@ wr_csv(SOLR_SPECIES_CSV_PATH, species_columns, species)
 wr_csv(SOLR_OBSERVATIONS_CSV_PATH, observations_columns, observations)
 wr_csv(SOLR_IMAGES_CSV_PATH, images_columns, images)
 
-print(f'species: {species}')
-print()
-print(f'observations: {observations}')
-print()
-print(f'images: {images}')
+
+def concatenate_summary_abstracts(species_list: list, data_directory: str) -> list:
+    concatenated_data = []
+
+    for species in species_list:
+        file_path = os.path.join(
+            data_directory, f'unprocessed/{species[0]}/{species}.json')
+
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                species_data = json.load(file)
+
+                species_data['species'] = species
+
+                concatenated_data.append(species_data)
+
+    return concatenated_data
+
+
+concatenated_data = concatenate_summary_abstracts(species_list, 'data/')
+
+with open('solr/data/summary-abstracts.json', 'w') as file:
+    json.dump(concatenated_data, file, indent=4)
 
 conn.close()
