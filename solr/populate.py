@@ -20,7 +20,7 @@ cursor = conn.cursor()
 
 species_list = [
     'Agrocybe pediades',  # 1 observation, 6 MV, Missing!
-    'Amanita pantherina',  # 2 observations, 6 MV, Summary + 10 Abstracts
+    'Amanita pantherina',  # 2 observations, 6 MV, Summary + 10 Abstracts,
     'Astraeus hygrometricus',  # 3 observations, 6 MV, Summary + 10 Abstracts
     'Schizophyllum commune',  # 4 observations, 6 MV, Summary + 10 Abstracts
     'Cyclocybe aegerita',  # 5 observations, 6 MV, Summary + 10 Abstracts
@@ -41,7 +41,7 @@ observations = [cursor.execute(
 images = []
 for observation_list in observations:
     for observation in observation_list:
-        query = f'SELECT * FROM images WHERE gbif_id="{observation[2]}" LIMIT 10'
+        query = f'SELECT * FROM images WHERE gbif_id="{observation[2]}"'
         images.append(cursor.execute(query).fetchall())
 
 species_columns = [col[1] for col in cursor.execute(
@@ -86,7 +86,11 @@ populate_collection(images_dicts, COLLECTION_IMAGES)
 
 
 def concatenate_summary_abstracts(species_list: list, data_directory: str) -> list:
-    concatenated_data = []
+    concatenated_abstracts = []
+    concatenated_summaries = []
+
+    abstract_counter = 0
+    summary_counter = 0
 
     for species in species_list:
         file_path = os.path.join(
@@ -96,16 +100,39 @@ def concatenate_summary_abstracts(species_list: list, data_directory: str) -> li
             with open(file_path, 'r') as file:
                 species_data = json.load(file)
 
-                species_data['species'] = species
+                for key in species_data:
+                    if 'abstract' in key:
+                        abstract_dict = {}
 
-                concatenated_data.append(species_data)
+                        abstract_dict['abstract_id'] = abstract_counter
+                        abstract_dict['content'] = species_data[key]
+                        abstract_dict['species'] = species
 
-    return concatenated_data
+                        concatenated_abstracts.append(abstract_dict)
+                        abstract_counter += 1
+
+                    if 'summary' in key:
+                        summary_dict = {}
+
+                        summary_dict['summary_id'] = summary_counter
+                        summary_dict['content'] = species_data[key]
+                        summary_dict['species'] = species
+
+                        concatenated_summaries.append(summary_dict)
+                        summary_counter += 1
+
+    return concatenated_abstracts, concatenated_summaries
 
 
-concatenated_data = concatenate_summary_abstracts(species_list, 'data/')
+concatenated_abstracts, concatenated_summaries = concatenate_summary_abstracts(
+    species_list, 'data/')
 
-with open('solr/data/summary-abstracts.json', 'w') as file:
-    json.dump(concatenated_data, file, indent=4)
+# save abstracts
+with open('solr/data/abstracts.json', 'w') as file:
+    json.dump(concatenated_abstracts, file, indent=4)
+
+# save summaries
+with open('solr/data/summaries.json', 'w') as file:
+    json.dump(concatenated_summaries, file, indent=4)
 
 conn.close()
