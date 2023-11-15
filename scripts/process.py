@@ -49,10 +49,18 @@ df_occurrences['county'].fillna(df_occurrences['municipality'], inplace=True)
 df_occurrences['county'].fillna(df_occurrences['county_temp'], inplace=True)
 df_occurrences['author'].fillna(df_occurrences['identifiedBy'], inplace=True)
 df_occurrences['author'].fillna(df_occurrences['rightsHolder'], inplace=True)
+df_occurrences = df_occurrences.dropna(subset=['year'])
+df_occurrences['month'].fillna(6, inplace=True)
+df_occurrences['day'].fillna(15, inplace=True)
 
 print(f'{CHAR_ARROW} Renamed occurrences columns and dropped NULLS')
 
 df_observations = df_occurrences.loc[:, list(columns_occurrences.values())]
+
+df_observations['date'] = pd.to_datetime(df_observations[['year', 'month', 'day']].astype(int).astype(str).agg('-'.join, axis=1), format='%Y-%m-%d')
+df_observations = df_observations.drop(['year', 'month', 'day'], axis=1)
+
+
 df_multimedia = df_multimedia.rename(columns=columns_multimedia)
 print(f'{CHAR_ARROW} Renamed multimedia columns')
 
