@@ -31,7 +31,9 @@
                 },
                 "filters":[
                     {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"}
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class": "solr.SynonymGraphFilterFactory", "synonyms": "/var/solr/data/abstracts/conf/synonyms.txt", "expand": true},
+                    {"class": "solr.FlattenGraphFilterFactory"}
                 ]
             },
             "queryAnalyzer":{
@@ -40,7 +42,8 @@
                 },
                 "filters":[
                     {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
-                    {"class":"solr.LowerCaseFilterFactory"}
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class": "solr.SynonymGraphFilterFactory", "ignoreCase": true, "synonyms": "/var/solr/data/abstracts/conf/synonyms.txt", "expand": true}
                 ]
             }
         },
@@ -60,11 +63,13 @@
         {
             "name": "species",
             "type": "shortText",
+            "stored": true,
             "indexed": true
         },
         {
             "name": "content",
             "type": "longText",
+            "stored": true,
             "indexed": true
         }
     ]

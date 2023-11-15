@@ -11,6 +11,9 @@ docker exec -it fungi_solr solr create_core -c images
 docker exec -it fungi_solr solr create_core -c summaries
 docker exec -it fungi_solr solr create_core -c abstracts
 
+# upload synonyms
+docker cp solr/synonyms.txt fungi_solr:/var/solr/data/abstracts/conf/synonyms.txt
+
 # upload schema
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/species_schema.json http://localhost:8983/solr/species/schema
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/observations_schema.json http://localhost:8983/solr/observations/schema
