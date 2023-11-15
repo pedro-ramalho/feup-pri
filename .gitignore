@@ -8,3 +8,4 @@ data/processed/log
 
 # Ignore the JSON files 
 data/unprocessed/*.json
+solr/data/

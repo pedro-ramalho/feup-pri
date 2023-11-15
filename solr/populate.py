@@ -36,12 +36,12 @@ species = [cursor.execute(
     f'SELECT * FROM species WHERE species = "{sp}"').fetchall()[0] for sp in species_list]
 
 observations = [cursor.execute(
-    f'SELECT * FROM observations WHERE species="{sp}"').fetchall() for sp in species_list]
+    f'SELECT * FROM observations WHERE species="{sp}" LIMIT 10').fetchall() for sp in species_list]
 
 images = []
 for observation_list in observations:
     for observation in observation_list:
-        query = f'SELECT * FROM images WHERE gbif_id="{observation[2]}"'
+        query = f'SELECT * FROM images WHERE gbif_id="{observation[2]}" LIMIT 10'
         images.append(cursor.execute(query).fetchall())
 
 species_columns = [col[1] for col in cursor.execute(

@@ -67,19 +67,10 @@
             "indexed": true
         },
         {
-            "name": "year",
-            "type": "mint",
-            "indexed": true
-        },
-        {
-            "name": "month",
-            "type": "mint",
-            "indexed": true
-        },
-        {
-            "name": "day",
-            "type": "mint",
-            "indexed": true
+            "name": "date",
+            "type": "pdate",
+            "indexed": true,
+            "stored": true
         },
         {
             "name": "country_code",

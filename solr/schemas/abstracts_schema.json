@@ -22,7 +22,6 @@
                 ]
             }
         },
-
         {
             "name": "longText",
             "class": "solr.TextField",
@@ -44,73 +43,29 @@
                     {"class":"solr.LowerCaseFilterFactory"}
                 ]
             }
+        },
+        {
+            "name": "mint",
+            "class": "solr.IntPointField",
+            "multiValued": false,
+            "docValues": true
         }
-        
-
-        
     ],
     "add-field": [
+        {
+            "name": "abstract_id",
+            "type": "mint",
+            "indexed": false
+        },
         {
             "name": "species",
             "type": "shortText",
             "indexed": true
         },
         {
-            "name": "abstract_1",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_2",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_3",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_4",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_5",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_6",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_7",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_8",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_9",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "abstract_10",
-            "type": "longText",
-            "indexed": true
-        },
-        {
-            "name": "summary",
+            "name": "content",
             "type": "longText",
             "indexed": true
         }
-
-
     ]
 }
