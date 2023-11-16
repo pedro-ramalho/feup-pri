@@ -1,1 +1,1 @@
-disease,infection,illness,sickness
+disease,illness,sickness,disorder,condition,malady
