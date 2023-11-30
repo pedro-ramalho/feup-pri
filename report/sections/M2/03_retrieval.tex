@@ -1,0 +1,14 @@
+\subsection{Information Retrieval}
+
+The query system provided by \texttt{Solr} has the purpose of fulfilling the information needs presented in section \ref{search-scenarios}. These can be translated into \texttt{eDisMax} queries. In order to demonstrate the efficacy of each boost type, we curated two distinct queries. Our selection is designed to underscore the practical utility and effectiveness in each boosting mechanism. The details of each query are documented in the following subsections. 
+
+\subsubsection{\textbf{Query 1:} A user wants to research the toxic effects of fungi of the Amanita genus.} Initially, the user would simply filter the documents whose species have the genus \textit{Amanita}. Then, they could come up with some keywords related to their topic of search, like \textit{toxic}, \textit{toxicity}, or even \textit{poisonous}. Therefore, the computed query that satisfies this need could be:
+\begin{verbatim}
+species: amanita* 
+AND 
+content:'toxic'^2 content:'toxicity' content:'poisonous' content:'poison'
+\end{verbatim}
+
+The asterisk in \texttt{amanita*} is a wildcard character that represents zero or more characters, which means that species like \textit{Amanita muscaria} and \textit{Amanita phalloides} are included in the search. The content field looks for documents related to the keywords input by the user, namely those who match the terms \textit{toxic}, \textit{toxicity}, and \textit{poisonous}, giving more weight to \textit{toxic} due to the term boost attributed to it, specified by the \texttt{\^{}2} after it.
+
+\subsubsection{\textbf{Query 2:} A user is looking for scientific articles or abstracts related to diseases associated with fungi species.} The computed query that satisfies this need could simply be \texttt{content:'disease'}, which looks for documents that match the term \textit{disease}. However, since the \texttt{content} field is equipped with a synonym filter, the retrieved documents will not only match this term, but also the defined synonyms, like \textit{illness}, \textit{sickness}, \textit{disorder}, \textit{condition}, and \textit{malady}, which increases the overall number of relevant retrieved documents.

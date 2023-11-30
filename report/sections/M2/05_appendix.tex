@@ -1,0 +1,106 @@
+\appendix
+\section{Schema definitions}\label{sec:schema-definitions}
+
+\begin{table}[H]
+  \caption{Schema for the 'abstracts' collection}
+  \label{tab:abstracts-schema}
+  \begin{tabular}{lll}
+    \toprule
+    name&type&indexed\\
+    \midrule
+    \texttt{abstract\_id} & \texttt{mint} & \texttt{false} \\
+    \texttt{species}&\texttt{shortText}&\texttt{true}\\
+    \texttt{content}&\texttt{longText}&\texttt{true}\\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \caption{Schema for the 'images' collection}
+  \label{tab:images-schema}
+  \begin{tabular}{lll}
+    \toprule
+    name & type & indexed \\
+    \midrule
+    \texttt{index} & \texttt{mint} & \texttt{false} \\
+    \texttt{gbif\_id} & \texttt{mint} & \texttt{true} \\
+    \texttt{type} & \texttt{mstring} & \texttt{false} \\
+    \texttt{format} & \texttt{mstring} & \texttt{true} \\
+    \texttt{identifier} & \texttt{mstring} & \texttt{false} \\
+    \texttt{image\_link} & \texttt{mstring} & \texttt{false} \\
+    \texttt{title} & \texttt{shortText} & \texttt{true} \\
+    \texttt{description} & \texttt{shortText} & \texttt{true} \\
+    \texttt{source} & \texttt{shortText} & \texttt{true} \\
+    \texttt{audience} & \texttt{shortText} & \texttt{true} \\
+    \texttt{contributor} & \texttt{shortText} & \texttt{true} \\
+    \texttt{publisher} & \texttt{shortText} & \texttt{true} \\
+    \texttt{license} & \texttt{shortText} & \texttt{false} \\
+    \texttt{created} & \texttt{mdate} & \texttt{true} \\
+    \texttt{creator} & \texttt{shortText} & \texttt{true} \\
+    \texttt{rightsHolder} & \texttt{shortText} & \texttt{true} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \caption{Schema for the 'observations' collection}
+  \label{tab:observations-schema}
+  \begin{tabular}{llll}
+    \toprule
+    name & type & indexed & stored \\
+    \midrule
+    \texttt{index} & \texttt{mint} & \texttt{false} & \\
+    \texttt{species} & \texttt{shortText} & \texttt{true} & \\
+    \texttt{gbif\_id} & \texttt{mint} & \texttt{true} & \\
+    \texttt{date} & \texttt{pdate} & \texttt{true} & \texttt{true} \\
+    \texttt{country\_code} & \texttt{mstring} & \texttt{true} & \\
+    \texttt{district} & \texttt{shortText} & \texttt{true} & \\
+    \texttt{county} & \texttt{shortText} & \texttt{true} & \\
+    \texttt{parish} & \texttt{shortText} & \texttt{true} & \\
+    \texttt{longitude} & \texttt{mdouble} & \texttt{true} & \\
+    \texttt{latitude} & \texttt{mdouble} & \texttt{true} & \\
+    \texttt{author} & \texttt{shortText} & \texttt{true} & \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+  \caption{Schema for the 'summaries' collection}
+  \label{tab:summaries-schema}
+  \begin{tabular}{lll}
+    \toprule
+    name & type & indexed \\
+    \midrule
+    \texttt{summary\_id} & \texttt{mint} & \texttt{false} \\
+    \texttt{species} & \texttt{shortText} & \texttt{true} \\
+    \texttt{content} & \texttt{longText} & \texttt{true} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \caption{Schema for the 'species' collection}
+  \label{tab:species-schema}
+  \begin{tabular}{lll}
+    \toprule
+    name & type & indexed \\
+    \midrule
+    \texttt{index} & \texttt{mint} & \texttt{false} \\
+    \texttt{species} & \texttt{shortText} & \texttt{true} \\
+    \texttt{infraspecificEpithet} & \texttt{mstring} & \texttt{true} \\
+    \texttt{class} & \texttt{mstring} & \texttt{true} \\
+    \texttt{iucnRedListCategory} & \texttt{mstring} & \texttt{true} \\
+    \texttt{kingdom} & \texttt{mstring} & \texttt{true} \\
+    \texttt{phylum} & \texttt{mstring} & \texttt{true} \\
+    \texttt{specificEpithet} & \texttt{mstring} & \texttt{true} \\
+    \texttt{vernacularName} & \texttt{mstring} & \texttt{true} \\
+    \texttt{genericName} & \texttt{mstring} & \texttt{true} \\
+    \texttt{family} & \texttt{mstring} & \texttt{true} \\
+    \texttt{higherClassification} & \texttt{mstring} & \texttt{true} \\
+    \texttt{subgenus} & \texttt{mstring} & \texttt{true} \\
+    \texttt{organismName} & \texttt{mstring} & \texttt{true} \\
+    \texttt{datasetName} & \texttt{shortText} & \texttt{false} \\
+    \bottomrule
+  \end{tabular}
+\end{table}

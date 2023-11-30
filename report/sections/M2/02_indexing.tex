@@ -1,0 +1,29 @@
+\subsection{Indexing Schema}
+
+Although Solr is able to automatically perform a set of operations to identify field types in the data imported, we found it helpful to create a customized schema for our documents to have more control over the search behaviour in our search system. To upload the custom schema we resorted again to Solr's REST API. This step should be done before populating the collection, so it can be properly indexed.
+
+%TODO: fazer referencia a table no anexo
+
+\begin{table*}
+  \caption{Schema Types}
+  \label{tab:schematypes}
+  \begin{tabular}{lllp{2in}}
+    \toprule
+    Name&Class&Tokenizer&Filters\\
+    \midrule
+    \texttt{shortText}& \texttt{TextField}& \texttt{StandardTokenizerFactory}& \texttt{ASCIIFoldingFilterFactory, LowerCaseFilterFactory}\\
+    \texttt{longText}& \texttt{TextField}& \texttt{StandardTokenizerFactory}& \texttt{ASCIIFoldingFilterFactory, LowerCaseFilterFactory, SynonymGraphFilterFactory, FlattenGraphFilterFactory}\\
+    \texttt{mint}& \texttt{IntPointField}& \textit{N/A}& \textit{N/A}\\
+    \texttt{mstring}& \texttt{StrField}& \textit{N/A}& \textit{N/A}\\
+    \texttt{mdate}& \texttt{DateRangeField}& \textit{N/A}& \textit{N/A}\\
+    \texttt{mdouble}& \texttt{DoublePointField}& \textit{N/A}& \textit{N/A}\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+We built a dedicated schema for each collection in our system. The created field types are detailed in table \ref{tab:schematypes}. Please see Appendix-\ref{sec:schema-definitions} for the definition of each schema. However, let's discuss the intricacies behind the \texttt{longText} type. It is used for text attributes with a significant length, namely for the contents of summaries or abstracts. At index time, the analyzer splits the words into tokens, performs ASCII folding, by removing accents and diacritics, and lower cases all characters. It proceeds to apply synonym expansion to the tokens, allowing multiple tokens with similar meaning to be associated with the same position in the token stream, and also flattens the token graph structure, transforming the graph structure into a linear structure. Similar operations are performed at query time, so that the resulting tokens match the indexed ones.
+
+The default Solr schema typically allows multi-value fields, resulting in single-value lists for data like simple numerical values. This doesn't seem to impact search results, however we have specified single-value types for fields where it's applicable. We have chosen not to index all fields, as some were simply not relevant for search purposes, although they're still stored and retrieved in the search results.
+
+Below you may find a detailed description of our schema's fields:
+

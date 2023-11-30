@@ -1,0 +1,16 @@
+\subsection{Documents and Data Importing}
+
+At the start of the current milestone, our data both stored in an SQLite database and JSON files. Considering that our database had a total of three tables, it was deemed appropriate to create an individual core for each entity. Additionally, it is important to note that the JSON files were storing information of up to 10 abstracts, as well as the summaries of the Wikipedia page of a species. Since these parameters differ on the type of information they provide to the user, it was also deemed appropriate to separate each one of them to their own collection, which led to the creation of two more cores. In total, we opted to define five types of documents, each one relative to a dedicated Apache Solr core:
+
+\begin{itemize}
+    \item \textbf{Species:} species-specific information
+    \item \textbf{Observations:} observations-specific information
+    \item \textbf{Images:} images-specific information
+    \item \textbf{Abstracts:} abstracts related to a given species
+    \item \textbf{Summaries:} summaries of wikipedia pages related to a given species
+\end{itemize}
+
+
+In order to start working with this information in Solr, the necessary cores were created and populated with the appropriate data. Given the proportions of our system, the uploaded data consisted of a small subset of the data at our disposal. This facilitated the future evaluation of our retrieval processes. However, it is important to note that the selected sample aimed to contain entities which were the most rich in information, avoiding duplicated and missing values.
+
+For the creation of cores, and uploading of data, we resorted to the use of Solr's REST API.
