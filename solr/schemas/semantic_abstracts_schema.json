@@ -1,0 +1,89 @@
+{
+	"add-field-type": [
+        {
+            "name": "shortText",
+            "class": "solr.TextField",
+            "indexAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            },
+            "queryAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            }
+        },
+        {
+            "name": "longText",
+            "class": "solr.TextField",
+            "indexAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class": "solr.SynonymGraphFilterFactory", "synonyms": "/var/solr/data/semantic_abstracts/conf/synonyms.txt", "expand": true},
+                    {"class": "solr.FlattenGraphFilterFactory"}
+                ]
+            },
+            "queryAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.ASCIIFoldingFilterFactory", "preserveOriginal":true},
+                    {"class":"solr.LowerCaseFilterFactory"},
+                    {"class": "solr.SynonymGraphFilterFactory", "ignoreCase": true, "synonyms": "/var/solr/data/semantic_abstracts/conf/synonyms.txt", "expand": true}
+                ]
+            }
+        },
+        {
+            "name": "mint",
+            "class": "solr.IntPointField",
+            "multiValued": false,
+            "docValues": true
+        },
+        {
+            "name": "abstract_vector",
+            "class": "solr.DenseVectorField",
+            "vectorDimension": 384,
+            "similarityFunction": "cosine",
+            "knnAlgorithm": "hnsw"
+        }
+    ],
+    "add-field": [
+        {
+            "name": "abstract_id",
+            "type": "mint",
+            "indexed": false
+        },
+        {
+            "name": "species",
+            "type": "shortText",
+            "stored": true,
+            "indexed": true
+        },
+        {
+            "name": "content",
+            "type": "longText",
+            "stored": true,
+            "indexed": true
+        },
+        {
+            "name": "vector",
+            "type": "abstract_vector",
+            "indexed": true,
+            "stored": true
+        }
+    ]
+}

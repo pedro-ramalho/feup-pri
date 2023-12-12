@@ -10,9 +10,11 @@ docker exec -it fungi_solr solr create_core -c observations
 docker exec -it fungi_solr solr create_core -c images
 docker exec -it fungi_solr solr create_core -c summaries
 docker exec -it fungi_solr solr create_core -c abstracts
+docker exec -it fungi_solr solr create_core -c semantic_abstracts
 
 # upload synonyms
 docker cp solr/synonyms.txt fungi_solr:/var/solr/data/abstracts/conf/synonyms.txt
+docker cp solr/synonyms.txt fungi_solr:/var/solr/data/semantic_abstracts/conf/synonyms.txt
 
 # upload schema
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/species_schema.json http://localhost:8983/solr/species/schema
@@ -20,6 +22,8 @@ curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/obs
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/images_schema.json http://localhost:8983/solr/images/schema
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/summaries_schema.json http://localhost:8983/solr/summaries/schema
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/abstracts_schema.json http://localhost:8983/solr/abstracts/schema
+curl -X POST -H 'Content-Type: application/json' --data-binary @solr/schemas/semantic_abstracts_schema.json http://localhost:8983/solr/semantic_abstracts/schema
+
 
 # populate collections
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/data/species.json http://localhost:8983/solr/species/update?commit=true
@@ -27,3 +31,4 @@ curl -X POST -H 'Content-Type: application/json' --data-binary @solr/data/observ
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/data/images.json http://localhost:8983/solr/images/update?commit=true
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/data/summaries.json http://localhost:8983/solr/summaries/update?commit=true
 curl -X POST -H 'Content-Type: application/json' --data-binary @solr/data/abstracts.json http://localhost:8983/solr/abstracts/update?commit=true
+curl -X POST -H 'Content-Type: application/json' --data-binary @solr/data/semantic_abstracts.json http://localhost:8983/solr/semantic_abstracts/update?commit=true
