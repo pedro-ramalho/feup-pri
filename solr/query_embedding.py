@@ -15,9 +15,9 @@ def solr_knn_query(endpoint, collection, embedding):
     url = f'{endpoint}/{collection}/select'
 
     data = {
-        'q': f'{{!knn f=vector topK=10}}{embedding}',
+        'q': f'{{!knn f=vector topK=20}}{embedding}',
         'fl': 'abstract_id,content,species,score',
-        'rows': 10,
+        'rows': 20,
         'wt': 'json'
     }
 
@@ -41,7 +41,7 @@ def display_results(results):
 
     for doc in docs:
         print(
-            f'* {doc.get("abstract_id")} {doc.get("content")} {doc.get("species")} [score: {doc.get("score"):.2f}]')
+            f'* {doc.get("abstract_id")} {doc.get("species")} [score: {doc.get("score"):.2f}]')
 
 
 def main():
