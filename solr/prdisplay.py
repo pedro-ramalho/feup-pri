@@ -7,7 +7,7 @@ import requests
 import pandas as pd
 
 QRELS_FILE = 'solr/qrels/disease'
-QUERY_URL = 'http://localhost:8983/solr/abstracts/select?indent=true&q.op=OR&q=content%3A%20disease&useParams='
+QUERY_URL = 'http://localhost:8983/solr/abstracts/select?indent=true&q.op=OR&q=content%3Adisease&useParams='
 
 # Read qrels to extract relevant documents
 relevant = list(map(lambda el: el.strip(), open(QRELS_FILE).readlines()))
